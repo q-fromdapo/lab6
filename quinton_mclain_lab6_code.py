@@ -5,32 +5,46 @@ File Description:
 This program will help Barry at the local election office
 '''
 
-#CANDIDATE VOTE COUNT LOOKUP
-def candidate_lookup(search_name, names, votes):
+def load_data(file_name):
+    file = open(file_name, "r")
+
+    candidates = []
+    votes = []
+
+    line = file.readline()
+
+    while(line != ''):
+        candidate, vote_count = line.split(",")
+        candidates.append(candidate)
+        votes.append(int(vote_count))
+        line = file.readline()
+
+    file.close()
+
+    return candidates, votes
+
+def LookupCandidateCount(search_name, names, votes):
   for i in range(len(names)):
     if names[i]== search_name:
       return votes[i]
   return -1
 
-#GET ELECTION WINNER
-def get_election_winner(votes):
+def GetElectionWinner(votes):
   max_votes = max(votes)
   winner_index = votes.index(max_votes)
 
   return winner_index
 
 
-#GET TOTAL VOTES
-def get_total_votes(votes):
+
+def GetTotalVotes(votes):
   total = 0
   for i in votes:
     total += i
   
   return total
 
-
-#DISPLAY ELECTION STATISTICS
-def displaY_election_statistics(candidates, votes):
+def DisplayElectionStatistics(names, votes):
   tot_vote = sum(votes)
   num_candidates = len(candidates)
 
@@ -47,4 +61,41 @@ def displaY_election_statistics(candidates, votes):
   print(f'Average votes per candidate: {total_votes / num_candidates:.2f}')
 
 
-#EXIT PROGRAM
+
+def main():
+    candidates, votes = load_data("candidate_votes.txt")
+    
+    choice = -1
+    
+    while choice != 4:
+        print("Main Menu")
+        print("1. Candidate Count Lookup")
+        print("2. Get Election Winner")
+        print("3. Display Election Statistics")
+        print("4. Exit Program")
+
+        choice = int(input("--: "))
+
+        while(choice < 1 or choice > 4):
+            choice = int(input("Error: Invalid input.  --: "))
+
+        print()
+
+        if(choice == 1):
+            LookupCandidateCount(search_name, names, votes)
+        
+        elif choice == 2:
+            GetElectionWinner(votes)
+
+        elif choice == 3:
+            DisplayElectionStatistics(names, votes)
+
+        elif choice == 4:
+            return
+        
+        print()
+
+           
+
+
+main()
