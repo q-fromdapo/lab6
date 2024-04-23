@@ -24,43 +24,41 @@ def load_data(file_name):
     return candidates, votes
 
 def LookupCandidateCount(search_name, names, votes):
-  for i in range(len(names)):
-    if names[i]== search_name:
-      return votes[i]
-  return -1
+    for i in range(len(names)):
+        if names[i] == search_name:
+            return votes[i]
+    return -1
 
 def GetElectionWinner(votes):
-  max_votes = max(votes)
-  winner_index = votes.index(max_votes)
-
-  return winner_index
-
-
+    max_votes = max(votes)
+    winner_index = votes.index(max_votes)
+    return winner_index
 
 def GetTotalVotes(votes):
-  total = 0
-  for i in votes:
-    total += i
-  
-  return total
+    total = 0
+    for i in votes:
+        total += i
+    return total
 
 def DisplayElectionStatistics(names, votes):
-  tot_vote = sum(votes)
-  num_candidates = len(candidates)
+    tot_vote = sum(votes)
+    num_candidates = len(names)
 
-  print('Candidate\tVotest\tPercentage')
-  print('-----------------------------------')
+    max_name_length = max(len(name) for name in names)
+    column1_width = max(max_name_length, len("Candidate"))
+    column2_width = len("Votes")
+    column3_width = len("Percentage")
 
-  for i in range(num_candidates):
-    percent = (votes[i] / total_votes) * 100
-    
-    print(f'{candidates[i]}\t{votes[i]}\t{percentage:.2f}%')
+    print(f'{"Candidate":<{column1_width}} {"Votes":<{column2_width}} {"Percentage":<{column3_width}}')
+    print('-' * (column1_width + column2_width + column3_width + 4))
 
-  print('-----------------------------------')
-  print(f'Total votes cast: {total_votes}')
-  print(f'Average votes per candidate: {total_votes / num_candidates:.2f}')
+    for i in range(num_candidates):
+        percent = (votes[i] / tot_vote) * 100
+        print(f'{names[i]:<{column1_width}} {votes[i]:<{column2_width}} {percent:.2f}%')
 
-
+    print('-' * (column1_width + column2_width + column3_width + 4))
+    print(f'Total votes cast: {tot_vote}')
+    print(f'Average votes per candidate: {tot_vote / num_candidates:.2f}')
 
 def main():
     candidates, votes = load_data("candidate_votes.txt")
@@ -81,17 +79,17 @@ def main():
 
         print()
 
-        if(choice == 1):
-          search_name = input("Enter candidate's last name: ")
-          LookupCandidateCount(search_name, candidates, votes)
-          if count != -1:
-            print(f'{search_name} recieved {count} votes')
-          else:
-            print(f'No candidate with the last name {search_name} found.')
+        if choice == 1:
+            search_name = input("Enter candidate's last name: ")
+            candidate_votes = LookupCandidateCount(search_name, candidates, votes)
+            if candidate_votes != -1:
+                print(f'{search_name} received {candidate_votes} votes')
+            else:
+                print(f'No candidate with the last name {search_name} found.')
         
         elif choice == 2:
-          winner_index = GetElectionWinner(votes)
-          print(f'The winnder of the election is {candidates[winner_index]}')
+            winner_index = GetElectionWinner(votes)
+            print(f'The winner of the election is {candidates[winner_index]}')
 
         elif choice == 3:
             DisplayElectionStatistics(candidates, votes)
@@ -101,7 +99,6 @@ def main():
         
         print()
 
-           
-
-
 main()
+
+
