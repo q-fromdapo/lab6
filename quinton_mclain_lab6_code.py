@@ -82,13 +82,19 @@ def main():
         print()
 
         if(choice == 1):
-            LookupCandidateCount(search_name, names, votes)
+          search_name = input("Enter candidate's last name: ")
+          LookupCandidateCount(search_name, candidates, votes)
+          if count != -1:
+            print(f'{search_name} recieved {count} votes')
+          else:
+            print(f'No candidate with the last name {search_name} found.')
         
         elif choice == 2:
-            GetElectionWinner(votes)
+          winner_index = GetElectionWinner(votes)
+          print(f'The winnder of the election is {candidates[winner_index]}')
 
         elif choice == 3:
-            DisplayElectionStatistics(names, votes)
+            DisplayElectionStatistics(candidates, votes)
 
         elif choice == 4:
             return
